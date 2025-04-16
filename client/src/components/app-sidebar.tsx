@@ -23,6 +23,7 @@ import {
     ThumbsUp,
     User,
     UserRoundPlus,
+    TestTube2,
 } from "lucide-react";
 import ConnectionStatus from "./connection-status";
 
@@ -186,6 +187,14 @@ export function AppSidebar() {
                             <SidebarMenuButton>
                                 <Search />
                                 Netizens
+                            </SidebarMenuButton>
+                        </NavLink>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <NavLink to="/userop">
+                            <SidebarMenuButton>
+                                <TestTube2 />
+                                Test
                             </SidebarMenuButton>
                         </NavLink>
                     </SidebarMenuItem>

@@ -19,6 +19,7 @@ import CapitalAllocation from "./routes/allocation";
 import { UserProfile } from "./routes/userprofile";
 import { AllNetizens } from "./routes/all-netizens";
 import { AccountProvider } from './contexts/AccountContext';
+import UserOperation from './routes/userop';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -86,6 +87,10 @@ function App() {
                                                 <Route
                                                     path="allocation"
                                                     element={<CapitalAllocation />}
+                                                />
+                                                <Route
+                                                    path="userop"
+                                                    element={<UserOperation />}
                                                 />
                                             </Routes>
                                         </div>

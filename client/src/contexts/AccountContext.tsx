@@ -1,10 +1,10 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 export interface AccountDetails {
     isPasskey?: boolean;
     isEphemeral?: boolean;
     createdAt: string;
-    smartAccount?: any; // Type this properly based on your smart account implementation
+    smartAccount: any; // This should be properly typed based on the MetaMask smart account type
 }
 
 export interface Account {
@@ -22,7 +22,28 @@ interface AccountContextType {
 const AccountContext = createContext<AccountContextType | undefined>(undefined);
 
 export function AccountProvider({ children }: { children: ReactNode }) {
-    const [account, setAccount] = useState<Account | null>(null);
+    // Initialize state from localStorage
+    const [account, setAccountState] = useState<Account | null>(() => {
+        const saved = localStorage.getItem('currentAccount');
+        if (saved) {
+            try {
+                return JSON.parse(saved);
+            } catch (e) {
+                return null;
+            }
+        }
+        return null;
+    });
+
+    // Wrapper for setAccount that also updates localStorage
+    const setAccount = (newAccount: Account | null) => {
+        setAccountState(newAccount);
+        if (newAccount) {
+            localStorage.setItem('currentAccount', JSON.stringify(newAccount));
+        } else {
+            localStorage.removeItem('currentAccount');
+        }
+    };
 
     return (
         <AccountContext.Provider value={{ account, setAccount }}>

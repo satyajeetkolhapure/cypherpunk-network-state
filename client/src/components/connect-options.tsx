@@ -96,14 +96,15 @@ export function ConnectOptions() {
                 details: {
                     isEphemeral: true,
                     createdAt: new Date().toISOString(),
-                    privateKey: privateKey, // Note: In production, you should never store private keys in localStorage
                     smartAccount: delegatorSmartAccount
                 }
             };
             
-            handleSuccessfulConnection(account);
-            // Store in localStorage for this session
-            localStorage.setItem('ephemeralAccount', JSON.stringify(account));
+            // Set account in context (this will also handle localStorage)
+            setAccount(account);
+            
+            toast.success("Successfully connected!");
+            navigate("/census");
         } catch (error) {
             console.error("Error creating ephemeral account:", error);
             if (error instanceof Error) {
