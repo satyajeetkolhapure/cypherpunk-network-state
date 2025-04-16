@@ -18,6 +18,7 @@ import Core from "./routes/core";
 import CapitalAllocation from "./routes/allocation";
 import { UserProfile } from "./routes/userprofile";
 import { AllNetizens } from "./routes/all-netizens";
+import { AccountProvider } from './contexts/AccountContext';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -30,71 +31,73 @@ const queryClient = new QueryClient({
 function App() {
     useVersion();
     return (
-        <WagmiProvider config={wagmiConfig}>
-            <QueryClientProvider client={queryClient}>
-                <div
-                    className="dark antialiased"
-                    style={{
-                        colorScheme: "dark",
-                    }}
-                >
-                    <BrowserRouter>
-                        <TooltipProvider delayDuration={0}>
-                            <SidebarProvider>
-                                <AppSidebar />
-                                <SidebarInset>
-                                    <div className="flex flex-1 flex-col gap-4 size-full container">
-                                        <Routes>
-                                            <Route
-                                                path="/"
-                                                element={<Home />}
-                                            />
-                                            <Route
-                                                path="chat/:agentId"
-                                                element={<Chat />}
-                                            />
-                                            <Route
-                                                path="netizens/:netizenId"
-                                                element={<UserProfile />}
-                                            />
-                                            <Route
-                                                path="allnetizens"
-                                                element={<AllNetizens />}
-                                            />
-                                            <Route
-                                                path="settings/:agentId"
-                                                element={<Overview />}
-                                            />
-                                            <Route
-                                                path="naturalization"
-                                                element={<Naturalization />}
-                                            />
-                                            <Route
-                                                path="governance"
-                                                element={<Governance />}
-                                            />
-                                            <Route
-                                                path="census"
-                                                element={<Census />}
-                                            />
-                                            <Route
-                                                path="core"
-                                                element={<Core />}
-                                            />
-                                            <Route
-                                                path="allocation"
-                                                element={<CapitalAllocation />}
-                                            />
-                                        </Routes>
-                                    </div>
-                                </SidebarInset>
-                            </SidebarProvider>
-                            <Toaster />
-                        </TooltipProvider>
-                    </BrowserRouter>
-                </div>
-            </QueryClientProvider>
-        </WagmiProvider>
+        <AccountProvider>
+            <WagmiProvider config={wagmiConfig}>
+                <QueryClientProvider client={queryClient}>
+                    <div
+                        className="dark antialiased"
+                        style={{
+                            colorScheme: "dark",
+                        }}
+                    >
+                        <BrowserRouter>
+                            <TooltipProvider delayDuration={0}>
+                                <SidebarProvider>
+                                    <AppSidebar />
+                                    <SidebarInset>
+                                        <div className="flex flex-1 flex-col gap-4 size-full container">
+                                            <Routes>
+                                                <Route
+                                                    path="/"
+                                                    element={<Home />}
+                                                />
+                                                <Route
+                                                    path="chat/:agentId"
+                                                    element={<Chat />}
+                                                />
+                                                <Route
+                                                    path="netizens/:netizenId"
+                                                    element={<UserProfile />}
+                                                />
+                                                <Route
+                                                    path="allnetizens"
+                                                    element={<AllNetizens />}
+                                                />
+                                                <Route
+                                                    path="settings/:agentId"
+                                                    element={<Overview />}
+                                                />
+                                                <Route
+                                                    path="naturalization"
+                                                    element={<Naturalization />}
+                                                />
+                                                <Route
+                                                    path="governance"
+                                                    element={<Governance />}
+                                                />
+                                                <Route
+                                                    path="census"
+                                                    element={<Census />}
+                                                />
+                                                <Route
+                                                    path="core"
+                                                    element={<Core />}
+                                                />
+                                                <Route
+                                                    path="allocation"
+                                                    element={<CapitalAllocation />}
+                                                />
+                                            </Routes>
+                                        </div>
+                                    </SidebarInset>
+                                </SidebarProvider>
+                                <Toaster />
+                            </TooltipProvider>
+                        </BrowserRouter>
+                    </div>
+                </QueryClientProvider>
+            </WagmiProvider>
+        </AccountProvider>
     );
 }
 
