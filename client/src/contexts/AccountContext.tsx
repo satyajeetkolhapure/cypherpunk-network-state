@@ -4,7 +4,6 @@ export interface AccountDetails {
     isPasskey?: boolean;
     isEphemeral?: boolean;
     createdAt: string;
-    privateKey?: `0x${string}`;
     smartAccount?: any; // Type this properly based on your smart account implementation
 }
 
