@@ -11,6 +11,7 @@
     },
     "dependencies": {
         "@elizaos/core": "workspace:*",
+        "@metamask/delegation-toolkit": "^0.10.1",
         "@metamask/jazzicon": "^2.0.0",
         "@metamask/sdk": "^0.32.1",
         "@radix-ui/react-avatar": "^1.1.2",
@@ -41,6 +42,7 @@
         "react-router": "^7.1.1",
         "react-router-dom": "^7.1.1",
         "semver": "^7.6.3",
+        "sonner": "^2.0.3",
         "tailwind-merge": "^2.6.0",
         "tailwindcss-animate": "^1.0.7",
         "viem": "2.21.58",

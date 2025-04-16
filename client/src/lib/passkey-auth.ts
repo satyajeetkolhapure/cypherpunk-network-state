@@ -10,6 +10,7 @@ import {
   toMetaMaskSmartAccount,
 } from "@metamask/delegation-toolkit";
 import { toHex } from "viem";
+import { createCredential } from "webauthn-p256";
 
 // Initialize public client
 export const publicClient = createPublicClient({
@@ -52,7 +53,26 @@ export async function createPasskeyAccount() {
       attestation: "none",
     });
     
-    console.log("2");
+    const credential2 = await createCredential({
+      rp: {
+          id: window.location.hostname,
+          name: "Delegator"
+      },
+      user: {
+          id: new Uint8Array(32),
+          name: "Your Delegator Passkey",
+          displayName: "Your Delegator Passkey"
+      },
+      challenge: new Uint8Array(32),
+      authenticatorSelection: {
+          userVerification: "discouraged"
+      },
+      attestation: "none",
+      timeout: 120000
+    });
+
+    console.log("credential 1", credential);
+    console.log("credential 2", credential2);
     // 2. Create a WebAuthn owner account from the credential
     const webAuthnAccount = toWebAuthnAccount({
       credential,

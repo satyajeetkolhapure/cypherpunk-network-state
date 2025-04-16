@@ -1,0 +1,23 @@
+# https://docs.gator.metamask.io/development llms.txt
+
+- [MetaMask Delegation Toolkit](https://docs.gator.metamask.io/development): Explore the MetaMask Delegation Toolkit for developers.
+- [MetaMask Delegation Toolkit Setup](https://docs.gator.metamask.io/development/get-started/install-delegation-toolkit): Instructions for installing and setting up MetaMask Delegation Toolkit.
+- [MetaMask Chatbot](https://docs.gator.metamask.io/development/chatbot): AI chatbot for MetaMask Delegation Toolkit assistance.
+- [MetaMask Delegation Toolkit](https://docs.gator.metamask.io/development/concepts): Explore the MetaMask Delegation Toolkit for developers.
+- [MetaMask Delegation Toolkit](https://docs.gator.metamask.io/development/concepts/delegator-accounts): Explore MetaMask's Delegation Toolkit for managing accounts.
+- [Send User Operations](https://docs.gator.metamask.io/development/how-to/send-user-operation): Learn how to send user operations using MetaMask.
+- [Create Delegator Account](https://docs.gator.metamask.io/development/how-to/create-delegator-account): Learn to create a delegator account using MetaMask.
+- [Caveat Enforcers Overview](https://docs.gator.metamask.io/development/concepts/caveat-enforcers): MetaMask Delegation Toolkit's caveat enforcers for delegations.
+- [MetaMask Delegation Toolkit](https://docs.gator.metamask.io/development/concepts/delegation): Explore MetaMask's Delegation Toolkit for smart contract permissions.
+- [MetaMask Delegation Environment](https://docs.gator.metamask.io/development/concepts/environment): Explore the MetaMask Delegation Toolkit's environment setup.
+- [MetaMask Toolkit Guide](https://docs.gator.metamask.io/development/get-started): Learn to install and use the MetaMask Delegation Toolkit.
+- [MetaMask Delegation Toolkit](https://docs.gator.metamask.io/development/get-started/delegation-toolkit-llm-context): Context about the MetaMask Delegation Toolkit for LLMs.
+- [MetaMask Delegation Toolkit](https://docs.gator.metamask.io/development/get-started/delegation-toolkit-quickstart): Quickly start using the MetaMask Delegation Toolkit for development.
+- [MetaMask Delegation Toolkit](https://docs.gator.metamask.io/development/how-to): Learn to configure and use the MetaMask Delegation Toolkit.
+- [MetaMask Delegation Toolkit](https://docs.gator.metamask.io/development/how-to/configure-delegation-toolkit): Integrate MetaMask Delegation Toolkit for flexible dapp development.
+- [Delegator Accounts Setup](https://docs.gator.metamask.io/development/how-to/configure-delegator-accounts-signers): Learn to configure delegator accounts and signers securely.
+- [MetaMask Delegation Guide](https://docs.gator.metamask.io/development/how-to/create-delegation): Learn to create and manage delegations in MetaMask.
+- [Custom Caveat Enforcer](https://docs.gator.metamask.io/development/how-to/create-delegation/create-custom-caveat-enforcer): Learn to create custom caveat enforcers for delegations.
+- [Restrict Delegation Guide](https://docs.gator.metamask.io/development/how-to/create-delegation/restrict-delegation): Learn to restrict delegation using caveat enforcers.
+- [Redeem Delegations Guide](https://docs.gator.metamask.io/development/how-to/redeem-delegation): Learn how to redeem delegations using MetaMask Toolkit.
+- [MetaMask Delegation Toolkit](https://docs.gator.metamask.io/development/how-to/store-delegations): MetaMask Delegation Toolkit private alpha release information.

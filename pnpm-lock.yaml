@@ -204,9 +204,9 @@ importers:
       '@elizaos/core':
         specifier: workspace:*
         version: link:../packages/core
-      '@metamask-private/delegator-core-viem':
-        specifier: ^0.7.1
-        version: 0.7.1(viem@2.21.58(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.2))
+      '@metamask/delegation-toolkit':
+        specifier: ^0.10.1
+        version: 0.10.1(viem@2.21.58(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.2))
       '@metamask/jazzicon':
         specifier: ^2.0.0
         version: 2.0.0
@@ -297,6 +297,9 @@ importers:
       semver:
         specifier: ^7.6.3
         version: 7.7.1
+      sonner:
+        specifier: ^2.0.3
+        version: 2.0.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       tailwind-merge:
         specifier: ^2.6.0
         version: 2.6.0
@@ -3561,19 +3564,24 @@ packages:
   '@mermaid-js/parser@0.4.0':
     resolution: {integrity: sha512-wla8XOWvQAwuqy+gxiZqY+c7FokraOTHRWMsbB4AgRx9Sy7zKslNyejy7E+a77qHfey5GXw/ik3IXv/NHMJgaA==}
 
-  '@metamask-private/delegation-abis@0.7.1':
-    resolution: {integrity: sha512-mCdRE0WEgWmNeiHKLdTpsRgVovTR2PLTUVl3AaoRrlRSlh942ARgga7Yj1HbVZVHsZGwb69naAn+Mt9TgzhrfA==}
+  '@metamask/auto-changelog@3.4.4':
+    resolution: {integrity: sha512-bA2U6JXIQpbTbiURZ4X+c0OmkzQUOAggmG7x+NL37ELL8zI5NuiRyuR1dvlmhhlOUOdj8cCuqYFOxR478kz4Lg==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
 
-  '@metamask-private/delegation-deployments@0.7.1':
-    resolution: {integrity: sha512-JngoKj3U2eRkDMnfrr/mKgKYGhi0SFTKIMa1stu3rU6wD4/s/ucSNJ4+FQJ4IP2qhtOC7Np/VzftG6IPwjQxuw==}
+  '@metamask/delegation-abis@0.9.0':
+    resolution: {integrity: sha512-Ay+qTXpjZLwRdGUQKRdpxGlQ90vq0SPjFTUJ3fJi/SIZE7+2R/84fkI5hPaOrdgugZhkw9Z93aSaoTVbWM3h0Q==}
 
-  '@metamask-private/delegation-utils@0.7.1':
-    resolution: {integrity: sha512-9+ODM8yYfhFPJVytZTgpmm5obHZRp071CenK5nv8ZbDC82hNXf3vLH220v92yvQT5W5UX8cJmvmhHqhA1ZaWGw==}
+  '@metamask/delegation-deployments@0.9.0':
+    resolution: {integrity: sha512-8+xn4MqXKyDwdkH0+tXDesDHnpQ8gZPqN6leAWdKgWrWcAOLwu9py7vso8FHKT8pq3F+xD+BCkXrJsAEHvwVMw==}
+
+  '@metamask/delegation-toolkit@0.10.1':
+    resolution: {integrity: sha512-T622DtowE7in62p6iKpaw9wttFG5lcHsPlc9pjRDwafsyjhCenYcPC9TFmfVdvcr9SIpXbCyv94CJkXf+nYwgw==}
     peerDependencies:
       viem: 2.21.58
 
-  '@metamask-private/delegator-core-viem@0.7.1':
-    resolution: {integrity: sha512-tOkKZMt+ujIg5yxkHbRFn/dRMyCMjT0QwktQ2OLzV0NZkBakad9yBgMVW/P9eIHOS3kutr3P2Mm7htiQdRJ3QQ==}
+  '@metamask/delegation-utils@0.9.0':
+    resolution: {integrity: sha512-2NrWt5rq/5NO0AJ9jv01d0a7HTN/D1UQdkPQx+bLOiW/PwWz3uWfY30v0SVIGnBXUUZPHy97W3cy4cLNUGULHg==}
     peerDependencies:
       viem: 2.21.58
 
@@ -7577,6 +7585,10 @@ packages:
 
   diff@4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
+    engines: {node: '>=0.3.1'}
+
+  diff@5.2.0:
+    resolution: {integrity: sha512-uIFDxqpRZGZ6ThOk84hEfqWoHx2devRFvpTZcTHur85vImfaxUbTW9Ryh4CpCuDnToOP1CEtXKIgytHBPVff5A==}
     engines: {node: '>=0.3.1'}
 
   dijkstrajs@1.0.3:
@@ -11722,6 +11734,11 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
 
+  prettier@2.8.8:
+    resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+
   pretty-error@4.0.0:
     resolution: {integrity: sha512-AoJ5YMAcXKYxKhuJGdcvse+Voc6v1RgnsR3nWcYU7q4t6z0Q6T86sv5Zq8VIRbOWWFpvdGE83LtdSMNd+6Y0xw==}
 
@@ -12689,6 +12706,12 @@ packages:
 
   sonic-boom@4.2.0:
     resolution: {integrity: sha512-INb7TM37/mAcsGmc9hyyI6+QR3rR1zVRu36B0NeGXKnOOLiZOfER5SA+N7X7k3yUYRzLWafduTDvJAfDswwEww==}
+
+  sonner@2.0.3:
+    resolution: {integrity: sha512-njQ4Hht92m0sMqqHVDL32V2Oun9W1+PHO9NDv9FHfJjT3JT22IG4Jpo3FPQy+mouRKCXFWO+r67v6MrHX2zeIA==}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+      react-dom: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
 
   sort-css-media-queries@2.2.0:
     resolution: {integrity: sha512-0xtkGhWCC9MGt/EzgnvbbbKhqWjl1+/rncmhTh5qCpbYguXh6S/qwePfv/JQ8jePXXmqingylxoC49pCkSPIbA==}
@@ -18855,22 +18878,35 @@ snapshots:
     dependencies:
       langium: 3.3.1
 
-  '@metamask-private/delegation-abis@0.7.1': {}
-
-  '@metamask-private/delegation-deployments@0.7.1': {}
-
-  '@metamask-private/delegation-utils@0.7.1(viem@2.21.58(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.2))':
+  '@metamask/auto-changelog@3.4.4':
     dependencies:
-      '@metamask-private/delegation-abis': 0.7.1
-      '@metamask-private/delegation-deployments': 0.7.1
-      buffer: 6.0.3
-      viem: 2.21.58(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.2)
+      diff: 5.2.0
+      execa: 5.1.1
+      prettier: 2.8.8
+      semver: 7.7.1
+      yargs: 17.7.2
 
-  '@metamask-private/delegator-core-viem@0.7.1(viem@2.21.58(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.2))':
+  '@metamask/delegation-abis@0.9.0':
     dependencies:
-      '@metamask-private/delegation-utils': 0.7.1(viem@2.21.58(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.2))
+      '@metamask/auto-changelog': 3.4.4
+
+  '@metamask/delegation-deployments@0.9.0':
+    dependencies:
+      '@metamask/auto-changelog': 3.4.4
+
+  '@metamask/delegation-toolkit@0.10.1(viem@2.21.58(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.2))':
+    dependencies:
+      '@metamask/delegation-utils': 0.9.0(viem@2.21.58(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.2))
       viem: 2.21.58(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.2)
       webauthn-p256: 0.0.5
+
+  '@metamask/delegation-utils@0.9.0(viem@2.21.58(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.2))':
+    dependencies:
+      '@metamask/auto-changelog': 3.4.4
+      '@metamask/delegation-abis': 0.9.0
+      '@metamask/delegation-deployments': 0.9.0
+      buffer: 6.0.3
+      viem: 2.21.58(bufferutil@4.0.9)(typescript@5.6.3)(utf-8-validate@5.0.10)(zod@3.24.2)
 
   '@metamask/eth-json-rpc-provider@1.0.1':
     dependencies:
@@ -23863,6 +23899,8 @@ snapshots:
   diff-sequences@29.6.3: {}
 
   diff@4.0.2: {}
+
+  diff@5.2.0: {}
 
   dijkstrajs@1.0.3: {}
 
@@ -29238,6 +29276,8 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
+  prettier@2.8.8: {}
+
   pretty-error@4.0.0:
     dependencies:
       lodash: 4.17.21
@@ -30432,6 +30472,11 @@ snapshots:
   sonic-boom@4.2.0:
     dependencies:
       atomic-sleep: 1.0.0
+
+  sonner@2.0.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
 
   sort-css-media-queries@2.2.0: {}
 
