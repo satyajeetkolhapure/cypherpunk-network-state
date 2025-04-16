@@ -1,14 +1,13 @@
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 import { Button } from "./ui/button";
-import { mmConnector } from "../lib/wagmi";
 import { useEffect, useState } from "react";
 import { checkIsNetizen } from "../lib/cns/get-cns-netizens";
 import { Badge } from "./ui/badge";
 import { Address } from "./cns/address";
 import { Link } from "react-router";
+import { ConnectOptions } from "./connect-options";
 
 export function ConnectWalletButton() {
-    const { connect } = useConnect();
     const { disconnect } = useDisconnect();
     const { address, isConnected } = useAccount();
     const [isNetizen, setIsNetizen] = useState(false);
@@ -57,15 +56,5 @@ export function ConnectWalletButton() {
             </div>
         );
     }
-    return (
-        <>
-            <Button
-                variant="secondary"
-                className="bg-yellow-500 text-black"
-                onClick={() => connect({ connector: mmConnector })}
-            >
-                Connect Wallet
-            </Button>
-        </>
-    );
+    return <ConnectOptions />;
 }
