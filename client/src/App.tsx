@@ -20,6 +20,8 @@ import { UserProfile } from "./routes/userprofile";
 import { AllNetizens } from "./routes/all-netizens";
 import { AccountProvider } from './contexts/AccountContext';
 import UserOperation from './routes/userop';
+import Delegate from './routes/delegate';
+import Redeem from './routes/redeem';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -91,6 +93,14 @@ function App() {
                                                 <Route
                                                     path="userop"
                                                     element={<UserOperation />}
+                                                />
+                                                <Route
+                                                    path="delegate"
+                                                    element={<Delegate />}
+                                                />
+                                                <Route
+                                                    path="redeem"
+                                                    element={<Redeem />}
                                                 />
                                             </Routes>
                                         </div>

@@ -24,6 +24,8 @@ import {
     User,
     UserRoundPlus,
     TestTube2,
+    KeyRound,
+    ArrowLeftRight,
 } from "lucide-react";
 import ConnectionStatus from "./connection-status";
 
@@ -194,9 +196,25 @@ export function AppSidebar() {
                         <NavLink to="/userop">
                             <SidebarMenuButton>
                                 <TestTube2 />
-                                Test
+                                Userop
                             </SidebarMenuButton>
                         </NavLink>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                            <NavLink to="/delegate">
+                                <KeyRound className="h-4 w-4" />
+                                <span>Delegate</span>
+                            </NavLink>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                            <NavLink to="/redeem">
+                                <ArrowLeftRight className="h-4 w-4" />
+                                <span>Redeem</span>
+                            </NavLink>
+                        </SidebarMenuButton>
                     </SidebarMenuItem>
                     <span className="py-4" />
                     <SidebarMenuItem>

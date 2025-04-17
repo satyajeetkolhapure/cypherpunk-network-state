@@ -9,7 +9,8 @@ import { Implementation, toMetaMaskSmartAccount } from "@metamask/delegation-too
 import { publicClient } from "../lib/passkey-auth";
 import { privateKeyToAccount } from "viem/accounts";
 import { createBundlerClient, createPaymasterClient } from 'viem/account-abstraction';
-import { lineaSepolia as chain } from "viem/chains"; 
+import { lineaSepolia as chain } from "viem/chains";
+import { PageHeader } from '../components/page-header';
 
 export default function UserOperation() {
     const { account } = useAccount();
@@ -33,7 +34,7 @@ export default function UserOperation() {
             setIsLoading(true);
 
             // Create a delegator account from the private key stored in environment variables
-            const delegatorAccount = privateKeyToAccount(import.meta.env.VITE_EVM_PRIVATE_KEY as `0x${string}`);
+            const delegatorAccount = privateKeyToAccount(import.meta.env.VITE_EVM_USER_PRIVATE_KEY as `0x${string}`);
 
             // Create a MetaMask smart account using the delegator account
             const smartAccount = await toMetaMaskSmartAccount({
@@ -97,31 +98,36 @@ export default function UserOperation() {
     };
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">Test User Operation</h1>
-            
-            
-            {!account?.details?.smartAccount ? (
-                <p className="text-red-500">
-                    Please connect with a smart account first (Current account type: {account?.details?.isPasskey ? 'Passkey' : account?.details?.isEphemeral ? 'Ephemeral' : 'None'})
-                </p>
-            ) : (
-                <div className="space-y-4">
-                    <p className="text-gray-400">
-                        Connected with smart account: {account.id}
-                    </p>
-                    <Button 
-                        onClick={handleSendUserOp}
-                        disabled={isLoading}
-                    >
-                        {isLoading ? "Sending..." : "Send Test UserOp"}
-                    </Button>
+        <div className="flex flex-col w-full h-[100dvh] p-8 text-white">
+            <div className="flex-1 overflow-y-auto">
+                <PageHeader title="User Operation" />
+                <div className="container mx-auto p-4">
+                    <h1 className="text-2xl font-bold mb-4">Test User Operation</h1>
+                    
+                    
+                    {!account?.details?.smartAccount ? (
+                        <p className="text-red-500">
+                            Please connect with a smart account first (Current account type: {account?.details?.isPasskey ? 'Passkey' : account?.details?.isEphemeral ? 'Ephemeral' : 'None'})
+                        </p>
+                    ) : (
+                        <div className="space-y-4">
+                            <p className="text-gray-400">
+                                Connected with smart account: {account.id}
+                            </p>
+                            <Button 
+                                onClick={handleSendUserOp}
+                                disabled={isLoading}
+                            >
+                                {isLoading ? "Sending..." : "Send Test UserOp"}
+                            </Button>
+                        </div>
+                    )}
+                    <br />
+                    <pre className="bg-gray-800 p-4 rounded mb-4 overflow-auto">
+                        {JSON.stringify(account, null, 2)} {/* Debug display */}
+                    </pre>
                 </div>
-            )}
-            <br />
-            <pre className="bg-gray-800 p-4 rounded mb-4 overflow-auto">
-                {JSON.stringify(account, null, 2)} {/* Debug display */}
-            </pre>
+            </div>
         </div>
     );
 } 

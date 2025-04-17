@@ -25,7 +25,6 @@ export function ConnectOptions() {
     const handleSuccessfulConnection = (account: any) => {
         setAccount(account);
         toast.success("Successfully connected!");
-        navigate("/census");
     };
 
     const handlePasskeyAuth = async () => {
@@ -104,7 +103,6 @@ export function ConnectOptions() {
             setAccount(account);
             
             toast.success("Successfully connected!");
-            navigate("/census");
         } catch (error) {
             console.error("Error creating ephemeral account:", error);
             if (error instanceof Error) {
