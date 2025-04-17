@@ -21,7 +21,7 @@ export const publicClient = createPublicClient({
 // Initialize bundler client
 export const bundlerClient = createBundlerClient({
   client: publicClient,
-  transport: http("https://bundler.linea.build"), // Using Linea's bundler
+  transport: http(import.meta.env.VITE_BUNDLER_URL), // Using Linea Sepolia's bundler
 });
 
 export async function createPasskeyAccount() {

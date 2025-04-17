@@ -1,10 +1,11 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { SmartAccount } from 'viem/account-abstraction';
 
 export interface AccountDetails {
     isPasskey?: boolean;
     isEphemeral?: boolean;
     createdAt: string;
-    smartAccount: any; // This should be properly typed based on the MetaMask smart account type
+    smartAccount: SmartAccount;
 }
 
 export interface Account {
@@ -17,6 +18,7 @@ export interface Account {
 interface AccountContextType {
     account: Account | null;
     setAccount: (account: Account | null) => void;
+    isSmartAccountReady: boolean;
 }
 
 const AccountContext = createContext<AccountContextType | undefined>(undefined);
@@ -45,8 +47,11 @@ export function AccountProvider({ children }: { children: ReactNode }) {
         }
     };
 
+    // Check if smart account is ready
+    const isSmartAccountReady = Boolean(account?.details?.smartAccount);
+
     return (
-        <AccountContext.Provider value={{ account, setAccount }}>
+        <AccountContext.Provider value={{ account, setAccount, isSmartAccountReady }}>
             {children}
         </AccountContext.Provider>
     );
@@ -58,4 +63,15 @@ export function useAccount() {
         throw new Error('useAccount must be used within an AccountProvider');
     }
     return context;
+}
+
+// Helper hook to check if smart account is ready
+export function useSmartAccount() {
+    const { account, isSmartAccountReady } = useAccount();
+    
+    if (!isSmartAccountReady) {
+        return null;
+    }
+
+    return account?.details.smartAccount;
 } 
