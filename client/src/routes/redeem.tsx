@@ -10,17 +10,13 @@ import { http } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { createWalletClient, createPublicClient } from 'viem';
 import { getDelegatorEnvironment } from "../lib/delegator-environment";
+import { publicClient } from "@/lib/passkey-auth";
 
 // Create delegate wallet client
 const delegateAccount = privateKeyToAccount(import.meta.env.VITE_EVM_PRIVATE_KEY as `0x${string}`);
+
 const delegateWalletClient = createWalletClient({
   account: delegateAccount,
-  chain,
-  transport: http(),
-});
-
-// Create public client for reading blockchain data
-const publicClient = createPublicClient({
   chain,
   transport: http(),
 });

@@ -45,7 +45,7 @@ export default function Delegate() {
         if (!agentAddress) {
             toast({
                 title: "Error",
-                description: "Please fill in all fields",
+                description: "Please fill in the AI Agent address",
                 variant: "destructive",
             });
             return;
@@ -61,19 +61,20 @@ export default function Delegate() {
                 return;
             }
 
-            // Create the delegation
-            const delegation = createDelegation({
-                to: agentAddress,
-                from: account.details.smartAccount.address,
-                caveats: [], // Empty caveats array for now
-            });
-
+            // TODO retrieve the user conencted account instead of using `VITE_EVM_USER_PRIVATE_KEY` 
             const privateKey = import.meta.env.VITE_EVM_USER_PRIVATE_KEY as `0x${string}`;
             if (!privateKey) {
                 throw new Error("VITE_EVM_USER_PRIVATE_KEY environment variable is not set");
             }
-            // TODO retrieve the delegatorAccount from the user conencted account
             const delegatorAccount = privateKeyToAccount(privateKey);
+
+            // Create the delegation
+            const delegation = createDelegation({
+                to: agentAddress,
+                from: delegatorAccount.address,
+                caveats: [], // Empty caveats array for now
+            });
+
 
             // Create a new MetaMask smart account instance for signing
             const smartAccount = await toMetaMaskSmartAccount({
