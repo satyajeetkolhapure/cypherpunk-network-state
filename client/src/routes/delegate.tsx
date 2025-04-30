@@ -8,7 +8,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { createDelegation, toMetaMaskSmartAccount, Implementation } from "@metamask/delegation-toolkit";
 import { useAccount as useAccountContext } from "@/contexts/AccountContext";
-import { SmartAccount } from "viem/account-abstraction";
 import { PageHeader } from "@/components/page-header";
 import { publicClient } from "@/lib/passkey-auth";
 import { privateKeyToAccount } from "viem/accounts";
@@ -61,23 +60,21 @@ export default function Delegate() {
                 return;
             }
 
-            // TODO retrieve the user conencted account instead of using `VITE_EVM_USER_PRIVATE_KEY` 
-            const privateKey = import.meta.env.VITE_EVM_USER_PRIVATE_KEY as `0x${string}`;
-            if (!privateKey) {
-                throw new Error("VITE_EVM_USER_PRIVATE_KEY environment variable is not set");
-            }
-            const delegatorAccount = privateKeyToAccount(privateKey);
+            const delegateAccount = privateKeyToAccount(import.meta.env.VITE_EVM_PRIVATE_KEY as `0x${string}`);
 
-            // Create the delegation
-            const delegation = createDelegation({
-                to: agentAddress,
-                from: delegatorAccount.address,
-                caveats: [], // Empty caveats array for now
+            const delegateSmartAccount = await toMetaMaskSmartAccount({
+                client: publicClient,
+                implementation: Implementation.Hybrid,
+                deployParams: [delegateAccount.address, [], [], []],
+                deploySalt: "0x",
+                signatory: { account: delegateAccount },
             });
 
 
+            const delegatorAccount = privateKeyToAccount(import.meta.env.VITE_EVM_USER_PRIVATE_KEY as `0x${string}`);
+
             // Create a new MetaMask smart account instance for signing
-            const smartAccount = await toMetaMaskSmartAccount({
+            const delegatorSmartAccount = await toMetaMaskSmartAccount({
                 client: publicClient,
                 implementation: Implementation.Hybrid,
                 deployParams: [delegatorAccount.address, [], [], []],
@@ -85,12 +82,20 @@ export default function Delegate() {
                 signatory: { account: delegatorAccount }
             });
 
+            console.log("Delegator smart account address:", delegatorSmartAccount.address);
+            // Create the delegation
+            const delegation = createDelegation({
+                to: delegateSmartAccount.address,
+                from: delegatorSmartAccount.address,
+                caveats: [], // Empty caveats array for now
+            });
+            
             // Sign the delegation using the MetaMask smart account
-            const signature = await smartAccount.signDelegation({ delegation });
+            const signature = await delegatorSmartAccount.signDelegation({ delegation });
 
             // Create the signed delegation object
             const signedDelegation: StoredDelegation = {
-                delegation,
+                delegation: { ...delegation, signature },
                 signature,
                 agentAddress,
                 scope,

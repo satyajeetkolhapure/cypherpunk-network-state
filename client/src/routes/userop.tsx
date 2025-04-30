@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAccount } from '../contexts/AccountContext';
 import { Button } from '../components/ui/button';
 import { createPimlicoClient } from "permissionless/clients/pimlico";
@@ -9,35 +9,23 @@ import { Implementation, toMetaMaskSmartAccount } from "@metamask/delegation-too
 import { publicClient } from "../lib/passkey-auth";
 import { privateKeyToAccount } from "viem/accounts";
 import { createBundlerClient, createPaymasterClient } from 'viem/account-abstraction';
-import { lineaSepolia as chain } from "viem/chains";
+import { sepolia as chain } from "viem/chains";
 import { PageHeader } from '../components/page-header';
+
 
 export default function UserOperation() {
     const { account } = useAccount();
     const [isLoading, setIsLoading] = useState(false);
+    const [smartAccount, setSmartAccount] = useState<any>(null);
 
-    // More detailed logging
-    console.log("=== UserOperation Component ===");
-    console.log("Full account object:", account);
-    console.log("Account details:", account?.details);
-    console.log("Smart account:", account?.details?.smartAccount);
-
-    const handleSendUserOp = async () => {
-        // Check if we have a smart account connected
-        if (!account?.details?.smartAccount) {
-            console.log("Smart account missing", account); // Debug log
-            toast.error("No smart account found. Please connect first.");
-            return;
-        }
-
-        try {
-            setIsLoading(true);
-
+    useEffect(() => {
+        const initializeSmartAccount = async () => {
+            console.log("Initializing smart account...");
             // Create a delegator account from the private key stored in environment variables
             const delegatorAccount = privateKeyToAccount(import.meta.env.VITE_EVM_USER_PRIVATE_KEY as `0x${string}`);
 
             // Create a MetaMask smart account using the delegator account
-            const smartAccount = await toMetaMaskSmartAccount({
+            const newSmartAccount = await toMetaMaskSmartAccount({
                 client: publicClient,
                 implementation: Implementation.Hybrid,
                 deployParams: [delegatorAccount.address, [], [], []],
@@ -45,12 +33,38 @@ export default function UserOperation() {
                 signatory: { account: delegatorAccount },
             });
 
+            console.log("New smart account address:", newSmartAccount.address);
+            setSmartAccount(newSmartAccount);
+        };
+
+        initializeSmartAccount();
+    }, []); // Empty dependency array means this effect runs once on mount
+
+    // Add effect to track smartAccount state changes
+    useEffect(() => {
+        console.log("Smart account state updated:", smartAccount?.address);
+    }, [smartAccount]);
+
+    const handleSendUserOp = async () => {
+        // Check if we have a smart account connected
+        if (!smartAccount) {
+            console.log("Smart account missing", smartAccount); // Debug log
+            toast.error("No smart account found. Please connect first.");
+            return;
+        }
+
+        try {
+            setIsLoading(true);
+            console.log("Current smart account in handleSendUserOp:", smartAccount.address);
+
             // Initialize paymaster client for handling gas payments
             const paymasterClient = createPaymasterClient({ 
                 transport: http(import.meta.env.VITE_BUNDLER_URL) 
             });
 
-            
+            console.log("Smart account address is:", smartAccount.address);
+
+            console.log("Smart account is deployed: ", await smartAccount.isDeployed());
             // Create bundler client that combines paymaster and chain configuration
             const bundlerClient = createBundlerClient({
                 transport: http(import.meta.env.VITE_BUNDLER_URL),
@@ -66,6 +80,7 @@ export default function UserOperation() {
             // Get gas price estimation from Pimlico (using 'fast' option for quicker processing)
             const { fast: fee } = await pimlicoClient.getUserOperationGasPrice();
             
+            console.log("Fee:", fee);
             toast.info("Sending user operation...");
             // Send the user operation with the estimated gas prices
             const userOperationHash = await bundlerClient.sendUserOperation({
@@ -73,7 +88,7 @@ export default function UserOperation() {
                 calls: [
                     {
                         to: "0x01f8e269cadcd36c945f012d2eeae814c42d1159",
-                        value: parseEther("0.0001")
+                        value: parseEther("0")
                     }
                 ],
                 ...fee // Spread the estimated gas prices into the operation
@@ -105,14 +120,14 @@ export default function UserOperation() {
                     <h1 className="text-2xl font-bold mb-4">Test User Operation</h1>
                     
                     
-                    {!account?.details?.smartAccount ? (
+                    {!smartAccount ? (
                         <p className="text-red-500">
                             Please connect with a smart account first (Current account type: {account?.details?.isPasskey ? 'Passkey' : account?.details?.isEphemeral ? 'Ephemeral' : 'None'})
                         </p>
                     ) : (
                         <div className="space-y-4">
                             <p className="text-gray-400">
-                                Connected with smart account: {account.id}
+                                Connected with smart account: {smartAccount?.address}
                             </p>
                             <Button 
                                 onClick={handleSendUserOp}
@@ -124,7 +139,7 @@ export default function UserOperation() {
                     )}
                     <br />
                     <pre className="bg-gray-800 p-4 rounded mb-4 overflow-auto">
-                        {JSON.stringify(account, null, 2)} {/* Debug display */}
+                        {JSON.stringify(smartAccount, null, 2)} {/* Debug display */}
                     </pre>
                 </div>
             </div>

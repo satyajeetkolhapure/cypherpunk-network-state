@@ -2,16 +2,16 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui
 import { Button } from "./ui/button";
 import { useConnect, useAccount as useWagmiAccount, useDisconnect } from "wagmi";
 import { mmConnector } from "../lib/wagmi";
-import { Key, Github, Twitter, Wallet, TestTube2 } from "lucide-react";
+import { Key, Twitter, Wallet, TestTube2 } from "lucide-react";
 import { createPasskeyAccount } from "../lib/passkey-auth";
 import { useState } from "react";
 import { toast } from "sonner";
 import { privateKeyToAccount } from "viem/accounts";
 import { Implementation, toMetaMaskSmartAccount } from "@metamask/delegation-toolkit";
 import { publicClient } from "../lib/passkey-auth";
-import { useAccount as useAccountContext } from "../contexts/AccountContext";
+import { useAccount } from "../contexts/AccountContext";
 import { Address } from "./cns/address";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export function ConnectOptions() {
     const { connect } = useConnect();
@@ -19,8 +19,7 @@ export function ConnectOptions() {
     const { address, isConnected } = useWagmiAccount();
     const [isLoading, setIsLoading] = useState(false);
     const [isCreatingEphemeral, setIsCreatingEphemeral] = useState(false);
-    const { account, setAccount } = useAccountContext();
-    const navigate = useNavigate();
+    const { account, setAccount } = useAccount();
 
     const handleSuccessfulConnection = (account: any) => {
         setAccount(account);
@@ -89,9 +88,9 @@ export function ConnectOptions() {
 
             // Create account object
             const account = {
-                id: delegatorAccount.address,
-                name: `Test Account ${delegatorAccount.address.slice(0, 8)}`,
-                username: `test_${delegatorAccount.address.slice(0, 8)}`,
+                id: delegatorSmartAccount.address,
+                name: `Test Account ${delegatorSmartAccount.address.slice(0, 8)}`,
+                username: `test_${delegatorSmartAccount.address.slice(0, 8)}`,
                 details: {
                     isEphemeral: true,
                     createdAt: new Date().toISOString(),

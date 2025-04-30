@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { createContext, useContext, useState, ReactNode } from 'react';
 import { SmartAccount } from 'viem/account-abstraction';
 
 export interface AccountDetails {

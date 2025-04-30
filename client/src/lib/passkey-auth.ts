@@ -1,5 +1,5 @@
 import { createPublicClient, http } from "viem";
-import { lineaSepolia as chain } from "viem/chains";
+import { sepolia as chain } from "viem/chains";
 import { createBundlerClient } from "viem/account-abstraction";
 import { 
   createWebAuthnCredential, 
@@ -22,6 +22,7 @@ export const publicClient = createPublicClient({
 export const bundlerClient = createBundlerClient({
   client: publicClient,
   transport: http(import.meta.env.VITE_BUNDLER_URL), // Using Linea Sepolia's bundler
+  paymaster: true,
 });
 
 export async function createPasskeyAccount() {

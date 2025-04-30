@@ -2,23 +2,26 @@ import { useState } from "react";
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { useAccount } from "@/contexts/AccountContext";
-import { DelegationFramework, SINGLE_DEFAULT_MODE } from "@metamask/delegation-toolkit";
-import { lineaSepolia as chain } from "viem/chains";
+import { DelegationFramework, getDeleGatorEnvironment, Implementation, SINGLE_DEFAULT_MODE, toMetaMaskSmartAccount } from "@metamask/delegation-toolkit";
+import { sepolia as chain } from "viem/chains";
 import { zeroAddress } from "viem";
 import { toast } from "sonner";
 import { http } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
-import { createWalletClient, createPublicClient } from 'viem';
-import { getDelegatorEnvironment } from "../lib/delegator-environment";
-import { publicClient } from "@/lib/passkey-auth";
+import { createWalletClient } from 'viem';
+import { bundlerClient, publicClient } from "@/lib/passkey-auth";
+import { createBundlerClient } from "viem/account-abstraction";
+import { createPimlicoClient } from "permissionless/clients/pimlico";
 
 // Create delegate wallet client
 const delegateAccount = privateKeyToAccount(import.meta.env.VITE_EVM_PRIVATE_KEY as `0x${string}`);
 
-const delegateWalletClient = createWalletClient({
-  account: delegateAccount,
-  chain,
-  transport: http(),
+const delegateSmartAccount = await toMetaMaskSmartAccount({
+    client: publicClient,
+    implementation: Implementation.Hybrid,
+    deployParams: [delegateAccount.address, [], [], []],
+    deploySalt: "0x",
+    signatory: { account: delegateAccount },
 });
 
 export default function Redeem() {
@@ -66,24 +69,38 @@ export default function Redeem() {
                 return;
             }
 
-            // Send the transaction using the delegate wallet client
-            console.log("Sending transaction with delegate wallet...");
-            const transactionHash = await delegateWalletClient.sendTransaction({
-                to: getDelegatorEnvironment(chain.id).DelegationManager,
-                data: redeemDelegationCalldata,
-                chain,
+            // Initialize Pimlico client for gas price estimation
+            const pimlicoClient = createPimlicoClient({ 
+                transport: http(import.meta.env.VITE_BUNDLER_URL) 
             });
+            // Get gas price estimation from Pimlico (using 'fast' option for quicker processing)
+            const { fast: fee } = await pimlicoClient.getUserOperationGasPrice();
+            
+            console.log("Fee:", fee);
+            toast.info("Sending user operation...");
 
-            console.log("Transaction sent! Hash:", transactionHash);
-            toast.info(`Transaction Hash: ${transactionHash}`);
+            // Send the user operation using the bundler client
+            console.log("Sending user operation with smart account...");
+            const userOperationHash = await bundlerClient.sendUserOperation({
+                account: delegateSmartAccount,
+                calls: [
+                  {
+                    to: delegateSmartAccount.address,
+                    data: redeemDelegationCalldata
+                  }
+                ],
+                ...fee
+              });
 
-            // Wait for the transaction to be confirmed using the public client
-            const receipt = await publicClient.waitForTransactionReceipt({
-                hash: transactionHash
-            });
+              toast.info(`UserOp Hash: ${userOperationHash}`);
 
-            console.log("Transaction successful! Receipt:", receipt);
-            toast.success("Delegation redeemed successfully!");
+              // Wait for the user operation to be confirmed on chain
+              const { receipt } = await bundlerClient.waitForUserOperationReceipt({
+                  hash: userOperationHash
+              });
+  
+              toast.success("User operation confirmed!");
+              console.log("Transaction receipt:", receipt);
         } catch (error) {
             console.error("Error redeeming delegation:", error);
             toast.error("Failed to redeem delegation: " + (error as Error).message);
